@@ -33,16 +33,16 @@ const QuillEditor: React.FC = () => {
   // 处理撤回
   const handleUndo = useCallback(() => {
     const quill = quillRef.current?.getEditor()
-    if (quill) {
-      quill.history.undo()
+    if (quill && (quill as any).history) {
+      (quill as any).history.undo()
     }
   }, [])
 
   // 处理重做
   const handleRedo = useCallback(() => {
     const quill = quillRef.current?.getEditor()
-    if (quill) {
-      quill.history.redo()
+    if (quill && (quill as any).history) {
+      (quill as any).history.redo()
     }
   }, [])
 
@@ -362,7 +362,7 @@ const QuillEditor: React.FC = () => {
   }
 
   // 处理编辑器选择变化，检测是否选中图片
-  const handleSelectionChange = useCallback((range: any, oldRange: any, source: string) => {
+  const handleSelectionChange = useCallback((range: any, _oldRange: any, _source: string) => {
     if (!range) {
       setSelectedImageId(null)
       return

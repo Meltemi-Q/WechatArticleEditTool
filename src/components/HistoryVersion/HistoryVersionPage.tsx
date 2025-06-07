@@ -297,7 +297,7 @@ const HistoryVersionPage: React.FC = () => {
             </div>
           ) : (
             <div className="space-y-3">
-              {historyVersions.map((version, index) => (
+              {historyVersions.map((version) => (
                 <div
                   key={version.id}
                   className={`border rounded-lg p-4 transition-colors ${

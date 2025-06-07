@@ -44,7 +44,7 @@ class EditorManager {
   }
 
   // 插入图片到编辑器
-  insertImage(imageUrl: string, imageName?: string): Promise<boolean> {
+  insertImage(imageUrl: string, _imageName?: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.waitForQuill((quill) => {
         try {

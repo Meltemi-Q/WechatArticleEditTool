@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Plus, Edit3, Trash2, FileText, Calendar, Tag, Search, ArrowLeft, Eye, Save, RotateCcw, BookOpen } from 'lucide-react'
+import { Plus, Edit3, Trash2, FileText, Calendar, Tag, Search, ArrowLeft, Eye, Save, RotateCcw } from 'lucide-react'
 import useEditorStore from '../../stores/editorStore'
 
 interface Article {
@@ -26,7 +26,7 @@ interface Topic {
 type ViewMode = 'topics' | 'articles' | 'reading' | 'editing'
 
 const TopicManager: React.FC = () => {
-  const { title, content, author, setTitle, setContent, setAuthor } = useEditorStore()
+  const { title, content, author } = useEditorStore()
   const [topics, setTopics] = useState<Topic[]>([])
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null)
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null)

@@ -4,7 +4,7 @@ import useEditorStore from '../../stores/editorStore'
 import useSettingsStore from '../../stores/settingsStore'
 
 const Header: React.FC = () => {
-  const { setActiveTab, exportContent, content, title, author, getAutoSaveStatus } = useEditorStore()
+  const { setActiveTab, content, title, author, getAutoSaveStatus } = useEditorStore()
   const { exportFormat, includeStyles, autoSave } = useSettingsStore()
 
   const showNotification = (icon: string, message: string, color: string) => {
@@ -206,7 +206,7 @@ const Header: React.FC = () => {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(exportData).then(() => {
           showNotification('✅', `${fileExtension.toUpperCase()}内容已复制到剪贴板`, '#07C160')
-        }).catch((clipboardError) => {
+        }).catch((clipboardError: unknown) => {
           console.error('剪贴板复制失败:', clipboardError)
           fallbackCopyToClipboard(exportData)
         })
@@ -227,9 +227,10 @@ const Header: React.FC = () => {
 
       showNotification('📥', `${fileExtension.toUpperCase()}文件已下载`, '#07C160')
 
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('导出失败详细错误:', error)
-      showNotification('❌', `导出失败：${error.message}`, '#DC2626')
+      const errorMessage = error instanceof Error ? error.message : '未知错误'
+      showNotification('❌', `导出失败：${errorMessage}`, '#DC2626')
     }
   }
 

@@ -8,7 +8,6 @@ const Preview: React.FC = () => {
     author,
     content,
     coverImage,
-    getPreviewContent,
     exportContent,
     imageSettings,
     selectedImageId,

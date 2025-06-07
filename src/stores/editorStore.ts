@@ -57,7 +57,7 @@ interface EditorState {
 
   // 自动保存相关
   lastSaved: Date | null
-  autoSaveTimer: NodeJS.Timeout | null
+  autoSaveTimer: number | null
   isSaving: boolean
 
   // 操作方法
@@ -348,7 +348,7 @@ const useEditorStore = create<EditorState>((set, get) => ({
 
       // 获取图片的原始尺寸
       const originalWidth = imgElement.naturalWidth
-      const originalHeight = imgElement.naturalHeight
+      // const originalHeight = imgElement.naturalHeight // 暂时不使用
 
       // 计算合适的显示尺寸
       let targetWidth: string

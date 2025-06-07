@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { Upload, Image as ImageIcon, Eye, Trash2, Edit3, Download } from 'lucide-react'
+import { Upload, Image as ImageIcon, Eye, Trash2, Edit3 } from 'lucide-react'
 import useEditorStore from '../../stores/editorStore'
 import editorManager from '../../utils/editorManager'
 
