@@ -1,0 +1,239 @@
+/* Quill编辑器样式优化 */
+.quill-editor-fixed {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.quill-editor-fixed .ql-toolbar {
+  border: 1px solid #e5e7eb;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  background: #f9fafb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.quill-editor-fixed .ql-container {
+  flex: 1;
+  border: 1px solid #e5e7eb;
+  border-radius: 0 0 8px 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  overflow-y: auto;
+}
+
+.quill-editor-fixed .ql-editor {
+  background-color: white !important;
+  color: #1f2937 !important;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+.quill-editor-fixed .ql-editor:focus {
+  outline: none;
+}
+
+/* 图片样式优化 */
+.quill-editor-fixed .ql-editor img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 15px auto !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+}
+
+.quill-editor-fixed .ql-editor img:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* 图片加载状态 */
+.quill-editor-fixed .ql-editor img[src=""],
+.quill-editor-fixed .ql-editor img:not([src]) {
+  background: #f3f4f6 !important;
+  border: 2px dashed #d1d5db !important;
+  min-height: 200px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+}
+
+.quill-editor-fixed .ql-editor img[src=""]:before,
+.quill-editor-fixed .ql-editor img:not([src]):before {
+  content: "图片加载中..." !important;
+  color: #6b7280 !important;
+  font-size: 14px !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* 图片错误状态 */
+.quill-editor-fixed .ql-editor img[data-error="true"] {
+  background: #fef2f2 !important;
+  border: 2px dashed #fca5a5 !important;
+  color: #dc2626 !important;
+}
+
+.quill-editor-fixed .ql-editor img[data-error="true"]:before {
+  content: "图片加载失败" !important;
+  color: #dc2626 !important;
+}
+
+/* 图片说明样式 */
+.quill-editor-fixed .ql-editor .image-caption {
+  text-align: center !important;
+  font-size: 14px !important;
+  color: #6b7280 !important;
+  font-style: italic !important;
+  margin: 8px 0 16px 0 !important;
+  line-height: 1.4 !important;
+  padding: 0 20px !important;
+}
+
+/* 自定义滚动条 */
+.quill-editor-fixed .ql-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.quill-editor-fixed .ql-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.quill-editor-fixed .ql-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.quill-editor-fixed .ql-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* 列表样式修复 */
+.ql-editor ol {
+  counter-reset: list-counter;
+  padding-left: 1.5em;
+}
+
+.ql-editor ol > li {
+  counter-increment: list-counter;
+  list-style: none;
+  position: relative;
+}
+
+.ql-editor ol > li::before {
+  content: counter(list-counter) ".";
+  position: absolute;
+  left: -1.5em;
+  color: #374151;
+  font-weight: 500;
+}
+
+.ql-editor ul {
+  padding-left: 1.5em;
+}
+
+.ql-editor ul > li {
+  list-style: disc;
+}
+
+.ql-editor ul > li::marker {
+  color: #6b7280;
+}
+
+/* 工具栏按钮样式 */
+.ql-toolbar .ql-formats {
+  margin-right: 15px;
+}
+
+.ql-toolbar button {
+  padding: 5px;
+  margin: 2px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.ql-toolbar button:hover {
+  background-color: #e5e7eb;
+}
+
+.ql-toolbar button.ql-active {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+/* 拖拽区域样式 */
+.quill-editor-fixed.drag-over {
+  border: 2px dashed #07C160 !important;
+  background-color: rgba(7, 193, 96, 0.05) !important;
+}
+
+.quill-editor-fixed.drag-over .ql-editor {
+  background-color: rgba(7, 193, 96, 0.02) !important;
+}
+
+/* 图片选中状态 */
+.quill-editor-fixed .ql-editor img.selected {
+  outline: 2px solid #07C160 !important;
+  outline-offset: 2px !important;
+}
+
+/* 响应式图片 */
+@media (max-width: 768px) {
+  .quill-editor-fixed .ql-editor img {
+    margin: 10px auto !important;
+    border-radius: 6px !important;
+  }
+  
+  .quill-editor-fixed .ql-editor {
+    padding: 15px !important;
+    font-size: 15px !important;
+  }
+}
+
+/* 图片工具提示 */
+.image-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.image-tooltip.show {
+  opacity: 1;
+}
+
+/* 图片加载动画 */
+@keyframes imageLoading {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+.quill-editor-fixed .ql-editor img[data-loading="true"] {
+  animation: imageLoading 1.5s infinite;
+}
+
+/* 图片格式支持指示器 */
+.supported-formats {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.supported-formats::before {
+  content: "支持格式：JPG, PNG, GIF, WebP";
+}

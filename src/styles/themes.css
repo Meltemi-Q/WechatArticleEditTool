@@ -1,0 +1,261 @@
+/* 主题系统 - CSS自定义属性 */
+
+/* 默认主题：微信绿 */
+:root,
+[data-theme="wechat-green"] {
+  --primary-color: #07C160;
+  --primary-hover: #06AD56;
+  --primary-light: #E8F5E8;
+  --secondary-color: #0085FF;
+  --secondary-hover: #0066CC;
+  --secondary-light: #E6F3FF;
+  --accent-color: #FF6B35;
+  --accent-hover: #E55A2B;
+  --accent-light: #FFF0ED;
+  --background-color: #FFFFFF;
+  --surface-color: #F8F9FA;
+  --border-color: #E5E7EB;
+  --text-primary: #1F2937;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+  --success-color: #10B981;
+  --warning-color: #F59E0B;
+  --error-color: #EF4444;
+  --gradient-primary: linear-gradient(135deg, #07C160 0%, #06AD56 100%);
+  --gradient-secondary: linear-gradient(135deg, #0085FF 0%, #0066CC 100%);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* 科技蓝主题 */
+[data-theme="classic-blue"] {
+  --primary-color: #0085FF;
+  --primary-hover: #0066CC;
+  --primary-light: #E6F3FF;
+  --secondary-color: #6366F1;
+  --secondary-hover: #4F46E5;
+  --secondary-light: #EEF2FF;
+  --accent-color: #06B6D4;
+  --accent-hover: #0891B2;
+  --accent-light: #ECFEFF;
+  --background-color: #FFFFFF;
+  --surface-color: #F1F5F9;
+  --border-color: #E2E8F0;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --success-color: #22C55E;
+  --warning-color: #EAB308;
+  --error-color: #EF4444;
+  --gradient-primary: linear-gradient(135deg, #0085FF 0%, #6366F1 100%);
+  --gradient-secondary: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.1);
+}
+
+/* 优雅紫主题 */
+[data-theme="elegant-purple"] {
+  --primary-color: #9333EA;
+  --primary-hover: #7C3AED;
+  --primary-light: #F3E8FF;
+  --secondary-color: #EC4899;
+  --secondary-hover: #DB2777;
+  --secondary-light: #FDF2F8;
+  --accent-color: #8B5CF6;
+  --accent-hover: #7C3AED;
+  --accent-light: #F5F3FF;
+  --background-color: #FFFFFF;
+  --surface-color: #FAFAFA;
+  --border-color: #E4E4E7;
+  --text-primary: #18181B;
+  --text-secondary: #52525B;
+  --text-muted: #A1A1AA;
+  --success-color: #22C55E;
+  --warning-color: #F59E0B;
+  --error-color: #EF4444;
+  --gradient-primary: linear-gradient(135deg, #9333EA 0%, #EC4899 100%);
+  --gradient-secondary: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  --shadow-sm: 0 1px 2px 0 rgba(24, 24, 27, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(24, 24, 27, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(24, 24, 27, 0.1);
+}
+
+/* 温暖橙主题 */
+[data-theme="warm-orange"] {
+  --primary-color: #EA580C;
+  --primary-hover: #DC2626;
+  --primary-light: #FFF7ED;
+  --secondary-color: #D97706;
+  --secondary-hover: #B45309;
+  --secondary-light: #FFFBEB;
+  --accent-color: #F59E0B;
+  --accent-hover: #D97706;
+  --accent-light: #FEF3C7;
+  --background-color: #FFFFFF;
+  --surface-color: #FFFAF0;
+  --border-color: #FED7AA;
+  --text-primary: #1C1917;
+  --text-secondary: #57534E;
+  --text-muted: #A8A29E;
+  --success-color: #16A34A;
+  --warning-color: #CA8A04;
+  --error-color: #DC2626;
+  --gradient-primary: linear-gradient(135deg, #EA580C 0%, #DC2626 100%);
+  --gradient-secondary: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+  --shadow-sm: 0 1px 2px 0 rgba(28, 25, 23, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(28, 25, 23, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(28, 25, 23, 0.1);
+}
+
+/* 应用主题变量到组件 */
+.bg-primary { background-color: var(--primary-color) !important; }
+.bg-primary:hover { background-color: var(--primary-hover) !important; }
+.text-primary-color { color: var(--primary-color) !important; }
+.border-primary { border-color: var(--primary-color) !important; }
+
+.bg-secondary { background-color: var(--secondary-color) !important; }
+.bg-secondary:hover { background-color: var(--secondary-hover) !important; }
+.text-secondary-color { color: var(--secondary-color) !important; }
+.border-secondary { border-color: var(--secondary-color) !important; }
+
+.bg-surface { background-color: var(--surface-color) !important; }
+.text-primary { color: var(--text-primary) !important; }
+.text-secondary { color: var(--text-secondary) !important; }
+.text-muted { color: var(--text-muted) !important; }
+.border-color { border-color: var(--border-color) !important; }
+
+/* 按钮样式 */
+.header-button--primary {
+  background: var(--gradient-primary) !important;
+  color: white !important;
+  border: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.header-button--primary:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.header-button--secondary {
+  background-color: var(--surface-color) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  transition: all 0.3s ease !important;
+}
+
+.header-button--secondary:hover {
+  background-color: var(--primary-light) !important;
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
+}
+
+/* 卡片样式 */
+.theme-card {
+  background-color: var(--background-color) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition: all 0.3s ease !important;
+}
+
+.theme-card:hover {
+  box-shadow: var(--shadow-md) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* 输入框样式 */
+.theme-input {
+  background-color: var(--background-color) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.theme-input:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 3px var(--primary-light) !important;
+}
+
+/* 主题切换动画 */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
+}
+
+/* 编辑器主题适配 */
+.ql-toolbar {
+  background-color: var(--surface-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+.ql-toolbar button:hover {
+  background-color: var(--primary-light) !important;
+  color: var(--primary-color) !important;
+}
+
+.ql-toolbar button.ql-active {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+.ql-container {
+  border-color: var(--border-color) !important;
+}
+
+.ql-editor {
+  color: var(--text-primary) !important;
+}
+
+/* 预览区域主题适配 */
+.wechat-preview {
+  background-color: var(--surface-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* 侧边栏主题适配 */
+.sidebar {
+  background-color: var(--background-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+.sidebar-tab {
+  color: var(--text-secondary) !important;
+  transition: all 0.3s ease !important;
+}
+
+.sidebar-tab:hover {
+  color: var(--primary-color) !important;
+  background-color: var(--primary-light) !important;
+}
+
+.sidebar-tab.active {
+  color: var(--primary-color) !important;
+  background-color: var(--primary-light) !important;
+  border-right: 3px solid var(--primary-color) !important;
+}
+
+/* 通知样式 */
+.notification {
+  background-color: var(--background-color) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow-lg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* 成功状态 */
+.status-success {
+  color: var(--success-color) !important;
+  background-color: color-mix(in srgb, var(--success-color) 10%, transparent) !important;
+}
+
+/* 警告状态 */
+.status-warning {
+  color: var(--warning-color) !important;
+  background-color: color-mix(in srgb, var(--warning-color) 10%, transparent) !important;
+}
+
+/* 错误状态 */
+.status-error {
+  color: var(--error-color) !important;
+  background-color: color-mix(in srgb, var(--error-color) 10%, transparent) !important;
+}

@@ -1,0 +1,751 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 全局样式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+               "PingFang SC", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8fafc;
+  color: #374151;
+}
+
+/* ============ Quill编辑器样式重写 (最稳定版本) ============ */
+.ql-container {
+  border: none !important;
+  height: 100% !important;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.ql-toolbar {
+  border: none !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  padding: 12px 16px;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.ql-editor {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  padding: 20px !important;
+  border: none !important;
+  min-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #f3f4f6;
+}
+
+.ql-editor.ql-blank::before {
+  color: #9ca3af;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 1.6;
+  left: 20px;
+  right: 20px;
+}
+
+.ql-editor * {
+  color: inherit;
+}
+
+.ql-editor p {
+  margin-bottom: 1em;
+  line-height: 1.6;
+}
+
+.ql-editor h1 {
+  font-size: 1.75em;
+  font-weight: bold;
+  margin: 1.5em 0 1em;
+  color: #1f2937;
+}
+
+.ql-editor h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 1.3em 0 0.8em;
+  color: #1f2937;
+}
+
+.ql-editor h3 {
+  font-size: 1.25em;
+  font-weight: bold;
+  margin: 1.2em 0 0.6em;
+  color: #1f2937;
+}
+
+.ql-editor strong {
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.ql-editor em {
+  font-style: italic;
+}
+
+.ql-editor u {
+  text-decoration: underline;
+}
+
+.ql-editor s {
+  text-decoration: line-through;
+}
+
+.ql-editor blockquote {
+  border-left: 4px solid #07c160;
+  padding: 0.5em 1em;
+  margin: 1.5em 0;
+  background: #f0fdf4;
+  color: #374151;
+  font-style: italic;
+}
+
+.ql-editor ul, .ql-editor ol {
+  margin: 1em 0;
+  padding-left: 2em;
+}
+
+.ql-editor li {
+  margin-bottom: 0.5em;
+  line-height: 1.6;
+}
+
+.ql-editor img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 1.5em auto;
+  display: block;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.ql-editor a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.ql-toolbar .ql-picker-label {
+  color: #374151;
+}
+
+.ql-toolbar .ql-stroke {
+  stroke: #374151;
+}
+
+.ql-toolbar .ql-fill {
+  fill: #374151;
+}
+
+.ql-toolbar button:hover {
+  color: #07c160;
+}
+
+.ql-toolbar button.ql-active {
+  color: #07c160;
+}
+
+/* 撤回和重做按钮样式 */
+.ql-toolbar .ql-undo,
+.ql-toolbar .ql-redo {
+  position: relative;
+  width: 32px !important;
+  height: 32px !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  margin: 0 2px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.ql-toolbar .ql-undo::before,
+.ql-toolbar .ql-redo::before {
+  font-size: 18px;
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  color: #374151;
+}
+
+
+
+.ql-toolbar .ql-undo:hover,
+.ql-toolbar .ql-redo:hover {
+  background: #f3f4f6 !important;
+  border-color: #07c160 !important;
+}
+
+.ql-toolbar .ql-undo:hover::before,
+.ql-toolbar .ql-redo:hover::before {
+  color: #07c160;
+}
+
+.ql-toolbar .ql-undo:active,
+.ql-toolbar .ql-redo:active {
+  background: #e5e7eb !important;
+  transform: scale(0.95);
+}
+
+
+
+/* 列表样式修复 */
+.ql-editor ol {
+  counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+}
+
+.ql-editor ol li {
+  counter-increment: list-1;
+}
+
+.ql-editor ol li:before {
+  content: counter(list-1, decimal) ". ";
+  position: absolute;
+  left: -2em;
+  font-weight: bold;
+}
+
+.ql-editor ul li {
+  position: relative;
+}
+
+.ql-editor ul li:before {
+  content: "•";
+  position: absolute;
+  left: -1.5em;
+  font-weight: bold;
+}
+
+/* ============ 通知动画 ============ */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* ============ 微信预览区域样式 ============ */
+.wechat-preview {
+  max-width: 375px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 4px;
+  position: relative;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.wechat-preview::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: #07c160;
+  border-radius: 16px 16px 0 0;
+}
+
+.wechat-content {
+  padding: 20px;
+  margin-top: 40px;
+  background: #ffffff;
+  border-radius: 0 0 16px 16px;
+  min-height: 300px;
+}
+
+.wechat-article-content {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.wechat-article-content h1 {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 20px 0 15px;
+  color: #1a1a1a;
+}
+
+.wechat-article-content h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 25px 0 15px;
+  border-left: 4px solid #07c160;
+  padding-left: 10px;
+  color: #1a1a1a;
+}
+
+.wechat-article-content p {
+  margin: 15px 0;
+  color: #333;
+}
+
+.wechat-article-content ul {
+  padding-left: 20px;
+  margin: 15px 0;
+  list-style: none;
+}
+
+.wechat-article-content ul li {
+  margin-bottom: 8px;
+  position: relative;
+  padding-left: 1em;
+}
+
+.wechat-article-content ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #333;
+  font-weight: bold;
+}
+
+.wechat-article-content ol {
+  padding-left: 20px;
+  margin: 15px 0;
+  list-style: none;
+  counter-reset: list-counter;
+}
+
+.wechat-article-content ol li {
+  margin-bottom: 8px;
+  position: relative;
+  padding-left: 1.5em;
+  counter-increment: list-counter;
+}
+
+.wechat-article-content ol li::before {
+  content: counter(list-counter) ".";
+  position: absolute;
+  left: 0;
+  color: #333;
+  font-weight: bold;
+}
+
+.wechat-article-content blockquote {
+  border-left: 3px solid #07c160;
+  padding: 10px 15px;
+  background: #f0fdf4;
+  margin: 15px 0;
+  border-radius: 0 4px 4px 0;
+  color: #333;
+  font-style: italic;
+}
+
+.wechat-article-content img {
+  width: 100%;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.wechat-article-content strong {
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.wechat-article-content a {
+  color: #2563EB;
+  text-decoration: underline;
+}
+
+.wechat-article-content code {
+  background: #f1f3f4;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 14px;
+}
+
+.wechat-article-content pre {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  margin: 15px 0;
+  overflow-x: auto;
+}
+
+.wechat-article-content pre code {
+  background: none;
+  padding: 0;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 14px;
+}
+
+/* ============ 自定义组件样式 ============ */
+@layer components {
+  .header-button {
+    @apply px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 flex items-center;
+  }
+
+  .header-button--primary {
+    @apply bg-primary text-white hover:bg-green-600;
+  }
+
+  .header-button--secondary {
+    @apply bg-gray-100 text-gray-600 hover:bg-gray-200;
+  }
+
+  .sidebar-item {
+    @apply flex items-center px-4 py-3 rounded-md text-sm text-gray-600
+           transition-all duration-200 cursor-pointer;
+  }
+
+  .sidebar-item:hover {
+    @apply bg-gray-100;
+  }
+
+  .sidebar-item.active {
+    @apply bg-green-50 text-primary font-semibold;
+  }
+
+  .feature-card {
+    @apply bg-white rounded-lg shadow-sm p-6 transition-all duration-300
+           hover:shadow-lg hover:-translate-y-1;
+  }
+
+  .topic-card {
+    @apply bg-white border border-gray-200 rounded-lg overflow-hidden
+           transition-all duration-300 hover:border-primary hover:shadow-md;
+  }
+
+  .image-size-button,
+  .image-align-button {
+    @apply px-3 py-2 text-xs bg-gray-100 border border-gray-300 rounded-md text-gray-700
+           hover:bg-gray-200 transition-colors cursor-pointer text-center;
+  }
+
+  .image-size-button.active,
+  .image-align-button.active {
+    @apply bg-primary text-white border-primary hover:bg-green-600;
+}
+
+  /* 文本截断样式 */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* ============ 工具提示和动画 ============ */
+@layer utilities {
+  .transition-base {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  .transition-hover {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .glassmorphism {
+    @apply bg-white/80 backdrop-blur-sm border border-white/20;
+  }
+}
+
+/* ============ 响应式设计 ============ */
+@media (max-width: 640px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .wechat-preview {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .feature-card {
+    padding: 16px;
+  }
+
+  .sidebar-item {
+    padding: 12px 16px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .wechat-preview {
+    max-width: 320px;
+  }
+}
+
+/* ============ 滚动条样式 ============ */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============ 动画定义 ============ */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* ============ 打印样式 ============ */
+@media print {
+  .wechat-preview {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  .wechat-preview::before {
+    display: none;
+  }
+}
+
+/* 通知提示样式 */
+.notification {
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* ============ 编辑器容器样式 ============ */
+.editor-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-container .ql-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100% !important;
+}
+
+.editor-container .ql-editor {
+  flex: 1;
+  overflow-y: auto !important;
+  height: 100% !important;
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #f9fafb;
+}
+
+.editor-container .ql-editor::-webkit-scrollbar {
+  width: 6px;
+}
+
+.editor-container .ql-editor::-webkit-scrollbar-track {
+  background: #f9fafb;
+  border-radius: 3px;
+}
+
+.editor-container .ql-editor::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.editor-container .ql-editor::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+.editor-container .ql-toolbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 20 !important;
+  background: white !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ============ 固定布局的Quill编辑器样式 ============ */
+.quill-editor-fixed {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.quill-editor-fixed .ql-toolbar {
+  flex-shrink: 0 !important;
+  position: static !important;
+  border: none !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  background: white !important;
+  padding: 8px 12px !important;
+  z-index: 10 !important;
+}
+
+.quill-editor-fixed .ql-container {
+  flex: 1 !important;
+  border: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+}
+
+.quill-editor-fixed .ql-editor {
+  flex: 1 !important;
+  padding: 20px !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  color: #333 !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: #d1d5db #f9fafb !important;
+}
+
+.quill-editor-fixed .ql-editor::-webkit-scrollbar {
+  width: 6px;
+}
+
+.quill-editor-fixed .ql-editor::-webkit-scrollbar-track {
+  background: #f9fafb;
+  border-radius: 3px;
+}
+
+.quill-editor-fixed .ql-editor::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.quill-editor-fixed .ql-editor::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+.quill-editor-fixed .ql-editor.ql-blank::before {
+  color: #9ca3af !important;
+  font-style: normal !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  left: 20px !important;
+  top: 20px !important;
+}
+
+/* 撤回重做按钮样式 */
+.quill-editor-fixed .ql-toolbar .ql-undo,
+.quill-editor-fixed .ql-toolbar .ql-redo {
+  padding: 4px 6px !important;
+  margin: 0 2px !important;
+  border-radius: 3px !important;
+  background: transparent !important;
+  border: 1px solid #d1d5db !important;
+  color: #374151 !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.quill-editor-fixed .ql-toolbar .ql-undo:hover,
+.quill-editor-fixed .ql-toolbar .ql-redo:hover {
+  background: #f3f4f6 !important;
+  border-color: #07c160 !important;
+  color: #07c160 !important;
+}
+
+.quill-editor-fixed .ql-toolbar .ql-undo:active,
+.quill-editor-fixed .ql-toolbar .ql-redo:active {
+  background: #e5e7eb !important;
+}
+
+/* ============ Quill 编辑器样式 ============ */

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微信公众号文章排版工具 - 原型设计</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#07C160',
+                        secondary: '#0085FF',
+                        dark: '#1A1A1A',
+                        light: '#F5F7FA'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .wechat-preview {
+            max-width: 377px;
+            background: #F5F7FA;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .wechat-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: #07C160;
+            border-radius: 16px 16px 0 0;
+        }
+        .wechat-content {
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        .editor-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .ql-toolbar {
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            background: #F8FAFC;
+        }
+        .feature-card {
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar-item {
+            transition: all 0.2s ease;
+            border-radius: 6px;
+            padding: 10px 15px;
+        }
+        .sidebar-item:hover {
+            background: #EDF2F7;
+        }
+        .sidebar-item.active {
+            background: #E6F7ED;
+            color: #07C160;
+            font-weight: 600;
+        }
+        .title-style-sample {
+            border-left: 4px solid #07C160;
+            padding: 8px 12px;
+            margin: 8px 0;
+            background: #F0FDF4;
+            border-radius: 0 4px 4px 0;
+        }
+        .topic-card {
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .topic-card:hover {
+            border-color: #07C160;
+            box-shadow: 0 4px 6px rgba(5, 150, 105, 0.1);
+        }
+        .image-preview {
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            background: #F8FAFC;
+        }
+        .image-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px;
+            display: flex;
+            justify-content: space-around;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .image-preview:hover .image-actions {
+            opacity: 1;
+        }
+        .resize-handle {
+            position: absolute;
+            right: 5px;
+            bottom: 5px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            cursor: se-resize;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <i class="fab fa-weixin text-3xl text-primary"></i>
+                <h1 class="text-xl font-bold">微信公众号文章排版工具</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+                    <i class="fas fa-history mr-2"></i>历史版本
+                </button>
+                <button class="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+                    <i class="fas fa-cog mr-2"></i>设置
+                </button>
+                <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-green-600 transition">
+                    <i class="fas fa-download mr-2"></i>导出文章
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- 主要功能卡片展示 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="feature-card">
+                <div class="p-5">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-edit text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">富文本编辑</h3>
+                    <p class="text-gray-600 text-sm">基于Quill.js的强大编辑器，支持Markdown，实时预览功能</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="p-5">
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-image text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">智能图片处理</h3>
+                    <p class="text-gray-600 text-sm">自动优化图片尺寸，智能压缩，添加图注和水印</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="p-5">
+                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-palette text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">样式管理</h3>
+                    <p class="text-gray-600 text-sm">预设标题样式，颜色主题，一键应用专业排版</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="p-5">
+                    <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-folder-open text-yellow-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">专题管理</h3>
+                    <p class="text-gray-600 text-sm">组织历史文章，生成系列专题模板，批量操作</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主界面 -->
+        <div class="flex flex-col lg:flex-row gap-6">
+            <!-- 左侧边栏 -->
+            <div class="w-full lg:w-64 flex-shrink-0">
+                <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
+                    <h2 class="font-semibold text-lg mb-4">功能导航</h2>
+                    <div class="space-y-2">
+                        <div class="sidebar-item active">
+                            <i class="fas fa-edit mr-3"></i>编辑文章
+                        </div>
+                        <div class="sidebar-item">
+                            <i class="fas fa-image mr-3"></i>图片管理
+                        </div>
+                        <div class="sidebar-item">
+                            <i class="fas fa-paint-brush mr-3"></i>样式设置
+                        </div>
+                        <div class="sidebar-item">
+                            <i class="fas fa-folder mr-3"></i>专题管理
+                        </div>
+                        <div class="sidebar-item">
+                            <i class="fas fa-history mr-3"></i>历史版本
+                        </div>
+                        <div class="sidebar-item">
+                            <i class="fas fa-cog mr-3"></i>系统设置
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-4">
+                    <h2 class="font-semibold text-lg mb-4">文章信息</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">文章标题</label>
+                            <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="输入文章标题" value="React开发最佳实践指南">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">文章作者</label>
+                            <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="输入作者名称" value="前端技术团队">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">封面图片</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer">
+                                <i class="fas fa-plus text-gray-400 text-2xl mb-2"></i>
+                                <p class="text-gray-500 text-sm">点击上传封面图片</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 中间编辑器区域 -->
+            <div class="flex-1">
+                <div class="editor-container mb-6">
+                    <div class="ql-toolbar border-b">
+                        <div class="flex flex-wrap items-center p-2">
+                            <select class="ql-header mr-3 px-2 py-1 border rounded">
+                                <option value="1">标题1</option>
+                                <option value="2">标题2</option>
+                                <option selected>正文</option>
+                            </select>
+                            <button class="ql-bold p-1 mx-1 w-8 h-8 rounded hover:bg-gray-200">
+                                <i class="fas fa-bold"></i>
+                            </button>
+                            <button class="ql-italic p-1 mx-1 w-8 h-8 rounded hover:bg-gray-200">
+                                <i class="fas fa-italic"></i>
+                            </button>
+                            <button class="ql-underline p-1 mx-1 w-8 h-8 rounded hover:bg-gray-200">
+                                <i class="fas fa-underline"></i>
+                            </button>
+
+                            <span class="mx-2 text-gray-300">|</span>
+
+                            <button class="ql-list p-1 mx-1 w-8 h-8 rounded hover:bg-gray-200" value="ordered">
+                                <i class="fas fa-list-ol"></i>
+                            </button>
+                            <button class="ql-list p-1 mx-1 w-8 h-8 rounded hover:bg-gray-200" value="bullet">
+                                <i class="fas fa-list-ul"></i>
+                            </button>
+                            <button class="ql-blockquote p-1 mx-1 w-8 h-8 rounded hover:bg-gray-200">
+                                <i class="fas fa-quote-right"></i>
+                            </button>
+
+                            <span class="mx-2 text-gray-300">|</span>
+
+                            <button class="ql-link p-1 mx-1 w-8 h-8 rounded hover:bg-gray-200">
+                                <i class="fas fa-link"></i>
+                            </button>
+                            <button class="p-1 mx-1 w-8 h-8 rounded hover:bg-gray-200">
+                                <i class="fas fa-image"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="ql-editor p-6 min-h-[500px]">
+                        <h1>React开发最佳实践指南</h1>
+                        <p>在当今的前端开发领域，React已经成为最受欢迎的JavaScript库之一。本文将介绍React开发中的最佳实践，帮助您构建更高效、更可维护的应用程序。</p>
+
+                        <h2>1. 组件设计原则</h2>
+                        <p>良好的组件设计是React应用成功的关键：</p>
+                        <ul>
+                            <li><strong>单一职责原则</strong>：每个组件应该只负责一个功能</li>
+                            <li><strong>可组合性</strong>：设计可重用的组件</li>
+                            <li><strong>状态管理</strong>：合理使用状态提升和Context API</li>
+                        </ul>
+
+                        <div class="my-6">
+                            <div class="image-preview relative">
+                                <img src="https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                                     alt="React Components" class="w-full">
+                                <div class="image-actions">
+                                    <button class="text-white text-sm"><i class="fas fa-arrows-alt mr-1"></i>调整</button>
+                                    <button class="text-white text-sm"><i class="fas fa-text-height mr-1"></i>图注</button>
+                                    <button class="text-white text-sm"><i class="fas fa-trash-alt mr-1"></i>删除</button>
+                                </div>
+                                <div class="resize-handle">
+                                    <i class="fas fa-expand-alt text-xs text-gray-600"></i>
+                                </div>
+                            </div>
+                            <p class="text-center text-gray-500 text-sm mt-2">React组件结构示意图</p>
+                        </div>
+
+                        <h2>2. 性能优化技巧</h2>
+                        <p>提升React应用性能的方法：</p>
+                        <blockquote>
+                            "性能优化应该基于实际测量，而不是猜测。使用React DevTools进行分析是第一步。"
+                        </blockquote>
+                        <p>关键优化策略包括：</p>
+                        <ol>
+                            <li>使用React.memo进行组件记忆</li>
+                            <li>合理使用useCallback和useMemo</li>
+                            <li>代码分割和懒加载</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- 样式模板 -->
+                <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
+                    <h2 class="font-semibold text-lg mb-4">标题样式模板</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="border rounded-lg p-4 hover:border-primary cursor-pointer">
+                            <div class="title-style-sample">
+                                <h3 class="font-bold">圆形数字标题</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm mt-2">带圆形背景的数字编号标题</p>
+                        </div>
+                        <div class="border rounded-lg p-4 hover:border-primary cursor-pointer">
+                            <div class="border-l-4 border-blue-500 pl-3 py-1">
+                                <h3 class="font-bold">左侧边框标题</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm mt-2">左侧带有彩色边框的标题样式</p>
+                        </div>
+                        <div class="border rounded-lg p-4 hover:border-primary cursor-pointer">
+                            <div class="bg-gray-100 px-3 py-2 rounded">
+                                <h3 class="font-bold">背景色块标题</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm mt-2">带背景色块的标题样式</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧预览区域 -->
+            <div class="w-full lg:w-80 flex-shrink-0">
+                <div class="sticky top-4">
+                    <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
+                        <h2 class="font-semibold text-lg mb-4">实时预览</h2>
+                        <div class="wechat-preview">
+                            <div class="wechat-content">
+                                <h1 style="font-size: 22px; font-weight: bold; margin: 20px 0 15px;">React开发最佳实践指南</h1>
+                                <p style="color: #57606a; font-size: 15px; margin-bottom: 20px;">前端技术团队 · 2023-08-15</p>
+
+                                <p>在当今的前端开发领域，React已经成为最受欢迎的JavaScript库之一。本文将介绍React开发中的最佳实践，帮助您构建更高效、更可维护的应用程序。</p>
+
+                                <h2 style="font-size: 18px; font-weight: bold; margin: 25px 0 15px; border-left: 4px solid #07C160; padding-left: 10px;">1. 组件设计原则</h2>
+                                <p>良好的组件设计是React应用成功的关键：</p>
+                                <ul style="padding-left: 20px; margin: 15px 0;">
+                                    <li style="margin-bottom: 8px;"><strong>单一职责原则</strong>：每个组件应该只负责一个功能</li>
+                                    <li style="margin-bottom: 8px;"><strong>可组合性</strong>：设计可重用的组件</li>
+                                    <li><strong>状态管理</strong>：合理使用状态提升和Context API</li>
+                                </ul>
+
+                                <div style="margin: 20px 0;">
+                                    <img src="https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                                         alt="React Components" style="width: 100%; border-radius: 4px;">
+                                    <p style="text-align: center; color: #888; font-size: 14px; margin-top: 8px;">React组件结构示意图</p>
+                                </div>
+
+                                <h2 style="font-size: 18px; font-weight: bold; margin: 25px 0 15px; border-left: 4px solid #0085FF; padding-left: 10px;">2. 性能优化技巧</h2>
+                                <p>提升React应用性能的方法：</p>
+                                <blockquote style="border-left: 3px solid #07C160; padding: 10px 15px; background: #f0fdf4; margin: 15px 0; border-radius: 0 4px 4px 0;">
+                                    "性能优化应该基于实际测量，而不是猜测。使用React DevTools进行分析是第一步。"
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm p-5">
+                        <h2 class="font-semibold text-lg mb-4">图片处理工具</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">缩放比例</label>
+                                <div class="grid grid-cols-4 gap-2">
+                                    <button class="py-2 bg-gray-100 rounded hover:bg-gray-200">原始</button>
+                                    <button class="py-2 bg-gray-100 rounded hover:bg-gray-200">大图</button>
+                                    <button class="py-2 bg-primary text-white rounded">中等</button>
+                                    <button class="py-2 bg-gray-100 rounded hover:bg-gray-200">小图</button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-2">添加图注</label>
+                                <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="输入图片描述" value="React组件结构示意图">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-2">图片对齐</label>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <button class="py-2 bg-gray-100 rounded hover:bg-gray-200">
+                                        <i class="fas fa-align-left"></i>
+                                    </button>
+                                    <button class="py-2 bg-primary text-white rounded">
+                                        <i class="fas fa-align-center"></i>
+                                    </button>
+                                    <button class="py-2 bg-gray-100 rounded hover:bg-gray-200">
+                                        <i class="fas fa-align-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button class="w-full py-2 bg-primary text-white rounded-lg hover:bg-green-600 transition">
+                                应用图片设置
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 专题管理 -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mt-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold">专题管理</h2>
+                <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-green-600 flex items-center">
+                    <i class="fas fa-plus mr-2"></i>新建专题
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="topic-card">
+                    <div class="p-5">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-md bg-blue-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-robot text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold">AI编程教程</h3>
+                                <p class="text-sm text-gray-500 mt-1">8篇文章 · 最后更新: 2023-08-10</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-1">
+                            <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">React</span>
+                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">AI</span>
+                            <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded">ChatGPT</span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-5 py-3 flex justify-between border-t">
+                        <button class="text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="text-gray-600 hover:text-gray-800">
+                            <i class="fas fa-external-link-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="p-5">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-md bg-green-100 flex items-center justify-center mr-3">
+                                <i class="fab fa-react text-green-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold">React高级技巧</h3>
+                                <p class="text-sm text-gray-500 mt-1">12篇文章 · 最后更新: 2023-07-28</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-1">
+                            <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">React</span>
+                            <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">性能优化</span>
+                            <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded">Hooks</span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-5 py-3 flex justify-between border-t">
+                        <button class="text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="text-gray-600 hover:text-gray-800">
+                            <i class="fas fa-external-link-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="p-5">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-md bg-purple-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-server text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold">后端API设计</h3>
+                                <p class="text-sm text-gray-500 mt-1">6篇文章 · 最后更新: 2023-07-15</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-1">
+                            <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">Node.js</span>
+                            <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded">RESTful</span>
+                            <span class="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs rounded">GraphQL</span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-5 py-3 flex justify-between border-t">
+                        <button class="text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="text-gray-600 hover:text-gray-800">
+                            <i class="fas fa-external-link-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 技术栈展示 -->
+    <div class="bg-gray-100 py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold text-center mb-4">技术架构</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-10">
+                基于纯前端无服务器架构，使用现代Web技术栈实现，零成本部署与运维
+            </p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <i class="fab fa-react text-4xl text-blue-500 mb-3"></i>
+                    <h3 class="font-semibold">React 18</h3>
+                    <p class="text-sm text-gray-600 mt-1">前端框架</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <i class="fas fa-bolt text-4xl text-yellow-500 mb-3"></i>
+                    <h3 class="font-semibold">Vite</h3>
+                    <p class="text-sm text-gray-600 mt-1">构建工具</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <i class="fab fa-js text-4xl text-yellow-400 mb-3"></i>
+                    <h3 class="font-semibold">TypeScript</h3>
+                    <p class="text-sm text-gray-600 mt-1">开发语言</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <i class="fas fa-wind text-4xl text-teal-500 mb-3"></i>
+                    <h3 class="font-semibold">Tailwind CSS</h3>
+                    <p class="text-sm text-gray-600 mt-1">UI框架</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <i class="fas fa-database text-4xl text-indigo-500 mb-3"></i>
+                    <h3 class="font-semibold">IndexedDB</h3>
+                    <p class="text-sm text-gray-600 mt-1">本地存储</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <i class="fas fa-cloud text-4xl text-blue-400 mb-3"></i>
+                    <h3 class="font-semibold">Vercel</h3>
+                    <p class="text-sm text-gray-600 mt-1">部署平台</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <i class="fab fa-weixin text-2xl text-primary"></i>
+                        <span class="text-xl font-bold">微信公众号文章排版工具</span>
+                    </div>
+                    <p class="text-gray-400 mt-2">基于纯前端技术实现的零成本微信文章排版解决方案</p>
+                </div>
+
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-300 hover:text-white">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white">
+                        <i class="fab fa-weixin text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white">
+                        <i class="fas fa-book text-xl"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-6 text-center text-gray-400">
+                <p>© 2023 微信公众号文章排版工具 | 开源免费 | 基于MIT许可证</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
